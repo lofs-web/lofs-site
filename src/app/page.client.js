@@ -5,11 +5,13 @@ export default function Home() {
   const [activeImage, setActiveImage] = useState("/pityparty.jpg");
 
   const releases = [
+    { title: "LOFS025 · Eye Level, Aria SL, Daniel Ball – eye level are ¡ not ok! ", img: "/megab0ba.jpg" },
     { title: "LOFS030 · Cali Girl For Now – PITY PARTY", img: "/pityparty.jpg" },
     { title: "LOFS029 · e 0 - e 0", img: "/e0.jpg" },
     { title: "LOFS028 · Oshi Moon – rhinestones", img: "/rhinestones.jpg" },
     { title: "LOFS027 · eleu – r u shy or smthn", img: "/eleu.jpg" },
-    { title: "LOFS026 · megab0ba – 001", img: "/megab0ba.jpg" },
+    { title: "LOFS026 · mega:oba – 001", img: "/megab0ba.jpg" },
+    { title: "LOFS025 · Eye Level, Aria SL, Daniel Ball – Eye Level", img: "/megab0ba.jpg" },
   ];
 
   return (
