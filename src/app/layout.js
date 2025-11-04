@@ -11,6 +11,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// This is the default title for ALL pages
 export const metadata = {
   title: "LOFS",
   description: "LOFS",
