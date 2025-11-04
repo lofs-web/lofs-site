@@ -4,6 +4,8 @@ export const metadata = {
   description: "LOFS",
 };
 
+export const dynamic = "force-dynamic";
+
 import Home from "./page.client";
 
 export default function Page() {
