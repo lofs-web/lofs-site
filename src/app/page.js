@@ -1,3 +1,4 @@
+// Trigger Vercel rebuild
 export const metadata = {
   title: "LOFS",
   description: "LOFS",
