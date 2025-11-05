@@ -16,7 +16,7 @@ export const metadata = {
   title: "LOFS",
   description: "LOFS",
   icons: {
-    icon: "/lofsfavicon.ico", // still keeps Next.js metadata aware
+    icon: "/lofsfaviconv2.ico", // still keeps Next.js metadata aware
   },
 };
 
