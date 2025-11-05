@@ -59,13 +59,14 @@ export default function Home() {
     { name: "Ziyiz", img: "/ziyizpress 2.jpg", bio: "Ziyiz is a Leeds-based composer and sound artist whose work blends experimental electronics, ambient abstraction, and corrupted techno to create immersive, ritualistic soundscapes. Drawing on generative processes, AI, and speculative design, their music constructs fractured sonic worlds where memory, artifact, and signal loss converge. Notable releases include Pattern Factory Method (Kindergarten Records) and the Spells EP (LOFS), which explore sonic decay and digital ephemera, often extending into visual and multidisciplinary collaborations.", link: "https://www.instagram.com/ziyiziyiziyiz/" },
   ];
 
-  // Preload all release images
-  useEffect(() => {
-    releases.forEach(r => {
-      const img = new Image();
-      img.src = r.img;
-    });
-  }, [releases]);
+  // Preload all release and roster images
+useEffect(() => {
+  [...releases, ...roster].forEach(item => {
+    const img = new Image();
+    img.src = item.img;
+  });
+}, [releases, roster]);
+
 
   return (
     <main className="bg-white text-gray-700 min-h-screen font-mono relative">
