@@ -16,7 +16,7 @@ export const metadata = {
   title: "LOFS",
   description: "LOFS",
   icons: {
-    icon: "/lofs favicon.jpg", // 
+    icon: "/lofsfavicon.png", 
   },
 };
 
