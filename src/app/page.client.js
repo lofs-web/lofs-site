@@ -43,15 +43,20 @@ export default function Home() {
   ];
 
   const roster = [
-    { name: "Olson", img: "/olson.jpg", bio: "Olson is a Sheffield-based producer and composer whose work drifts between introspective ambient soundscapes and high-velocity club mutations." },
-    { name: "Stolen Velour", img: "/stolenvelour.jpg", bio: "Stolen Velour is known for ambient textures..." },
-    { name: "FLOCO", img: "/floco.jpg", bio: "FLOCO mixes jazz influences with modern beats..." },
-    { name: "Renslink", img: "/renslink.jpg", bio: "Renslink is an electronic musician..." },
-    { name: "Daniel Ball", img: "/danielball.jpg", bio: "Daniel Ball is a multi-instrumentalist..." },
-    { name: "Jabes", img: "/jabes.jpg", bio: "Jabes blends lo-fi and synth-heavy sounds..." },
-    { name: "Ziyiz", img: "/ziyiz.jpg", bio: "Ziyiz focuses on experimental textures..." },
-    { name: "Oshi Moon", img: "/oshimoon.jpg", bio: "Oshi Moon combines ethereal vocals with beats..." },
-    { name: "Astral Bandit", img: "/astralbandit.jpg", bio: "Astral Bandit creates cinematic soundscapes..." },
+    { 
+      name: "Daniel Ball", 
+      img: "/danielball.jpg", 
+      bio: "Daniel Ball is a producer, DJ and multidisciplinary artist. Spanning commissioned composition for fashion and film, hyperactive dance pop with collaborators Elphi and Aria SL, and open format music research with project ending summers, his music is characterised by an early background in jazz and classical followed by a strong shift towards modern electronic production. Recent production work includes a score Yenesai’s SS25 runway show at the Palais De Tokyo (alongside longtime collaborator Aria SL) and Elphi’s ‘Lullaby’, alongside research into the affective nature of bass music through ending summers, and facilitating a non-profit recording studio for upcoming musicians at The Bath House community centre in Hackney Wick.",
+      link: "https://www.instagram.com/__danielball__/"
+    },
+    { name: "FLOCO", img: "/floco.png", bio: "Singer, producer and violinist FLOCO inhabits a world between the old and the new. Weaving remnants of her musical upbringing on English folk music through live electronics and experimental production, FLOCO explores the more abstract lands of Cyberfolk and Dream Pop. ", link: "https://www.instagram.com/floco_rj/" },
+    { name: "Halden Cooke", img: "/floco.jpg", bio: "Based in London, Astral Bandit has released on labels including Techlab, Harmless records, area127 and Underzone, and has shared their psy-flavoured sounds on Netil Radio, Aaja Radio, Technomate and more. Coming from a psytrance background in their teens, Astral Bandit later discovered the faster subgenres in techno and trance, building a signature sound that blends these elements into one. In their productions expect plenty of energy, hints of hypnotism, dark shades, and several sharp left turns.", link: "https://www.instagram.com/astral.bandit/" },
+    { name: "Jabes", img: "/renslink.jpg", bio: "Jabes is a London-based composer and producer known for sculpting immersive, high-tension sound worlds that bridge experimental electronic music and cinematic design. With a background in UK club culture and a focus on sonic detail, his work is equally at home on the dancefloor or the screen.", link: "https://www.instagram.com/j.abes_/" },
+    { name: "Olson", img: "/olson.jpg", bio: "Olson is a Sheffield-based producer and composer whose work drifts between introspective ambient soundscapes and high-velocity club mutations. Since 2023, he has been releasing a series of immersive projects via the LOFS label -  a diverse body of work, covering every shade of the ambient spectrum. Through heavy sample manipulation and synthesis, Olson creates vivid textural worlds - auditory myths that evoke something ambiguous yet ultimately peaceful and sincere. ", link: "https://www.instagram.com/olson_fus/" },
+    { name: "Oshi Moon", img: "/jabes.jpg", bio: " Underground Pop star Oshi Moon is obsessed with exploring duality through their art, treading the knife's edge of digital and analogue, hard and soft, masculine and feminine. Piecing together discarded fragments of the net, Oshi wields multiple creative disciplines to manifest his latest project CATFLAP.", link: "https://www.instagram.com/oshi_moon/" },
+    { name: "Renslink", img: "/renslink3000.jpg", bio: "Renslink is an Electronic music producer and live performer based in Manchester UK. Although relatively new to the scene he has already made his mark both locally and worldwide on labels such as Infinite Machine, Impossible City Records, Katharsis, LOFS  and Oddities. He catches a unique sound through deep experimentation and exploration of new and interesting ideas, pushing the boundaries of every corner of electronic music from Ambient to Club.", link: "https://www.instagram.com/renslink/" },
+    { name: "Stolen Velour", img: "/sv press.png", bio: "Stolen Velour is a Leeds-based experimental club producer and vocalist whose music fuses glitch-inspired sound design, UK-funky rhythms, hyperpop energy, and euphoric club beats to create immersive, visceral electronic tracks. With a career spanning residencies at Treehouse and collaborations like Cali Girl For Now, he blends pop sensibilities, nostalgic lo-fi textures, and post-internet experimentalism, crafting music that moves effortlessly between agitation and elation while celebrating inclusivity and freedom on the dancefloor.", link: "https://www.instagram.com/stolenvelour__/" },
+    { name: "Ziyiz", img: "/ziyizpress 2.jpg", bio: "Ziyiz is a Leeds-based composer and sound artist whose work blends experimental electronics, ambient abstraction, and corrupted techno to create immersive, ritualistic soundscapes. Drawing on generative processes, AI, and speculative design, their music constructs fractured sonic worlds where memory, artifact, and signal loss converge. Notable releases include Pattern Factory Method (Kindergarten Records) and the Spells EP (LOFS), which explore sonic decay and digital ephemera, often extending into visual and multidisciplinary collaborations.", link: "https://www.instagram.com/ziyiziyiziyiz/" },
   ];
 
   // Preload all release images
@@ -177,7 +182,14 @@ export default function Home() {
             </button>
           ) : (
             <>
-              <a href="#" className="text-xs block mt-1 hover:underline">more</a>
+              <a
+                href={roster.find(m => m.img === activeImage)?.link || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs block mt-1 hover:underline"
+              >
+                more
+              </a>
               <a href="mailto:lofspublishing@gmail.com" className="text-xs block mt-1 hover:underline">contact</a>
             </>
           )}
