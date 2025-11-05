@@ -54,16 +54,17 @@ export default function Home() {
     { name: "Astral Bandit", img: "/astralbandit.jpg", bio: "Astral Bandit creates cinematic soundscapes..." },
   ];
 
-  // Preload all images
+  // Preload all release images
   useEffect(() => {
-    [...releases, ...roster].forEach(item => {
+    releases.forEach(r => {
       const img = new Image();
-      img.src = item.img;
+      img.src = r.img;
     });
-  }, []);
+  }, [releases]);
 
   return (
     <main className="bg-white text-gray-700 min-h-screen font-mono relative">
+
       {/* Top-left menu */}
       <div className="absolute top-8 left-8 text-xs flex flex-col space-y-1">
         <p
@@ -118,16 +119,17 @@ export default function Home() {
         <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 w-[40rem] max-h-[9rem] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400/0 scrollbar-track-transparent hover:scrollbar-thumb-gray-400/50 scroll-smooth">
           <ul className="text-center text-sm space-y-1">
             {releases.map((release, index) => (
-              <li
-                key={index}
-                onMouseEnter={() => {
-                  setActiveImage(release.img);
-                  setActiveBio("");
-                  setActivePlayer(""); // reset until listen clicked
-                }}
-                className="cursor-pointer hover:opacity-60 transition whitespace-nowrap"
-              >
-                {release.title}
+              <li key={index} className="whitespace-nowrap">
+                <span
+                  className="cursor-pointer hover:opacity-60 transition"
+                  onMouseEnter={() => {
+                    setActiveImage(release.img);
+                    setActiveBio("");
+                    setActivePlayer("");
+                  }}
+                >
+                  {release.title}
+                </span>
               </li>
             ))}
           </ul>
@@ -139,16 +141,17 @@ export default function Home() {
         <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 w-[40rem]">
           <ul className="text-center text-sm space-y-1">
             {roster.map((member, index) => (
-              <li
-                key={index}
-                onMouseEnter={() => {
-                  setActiveImage(member.img);
-                  setActiveBio(member.bio);
-                  setActivePlayer("");
-                }}
-                className="cursor-pointer hover:opacity-60 transition whitespace-nowrap"
-              >
-                {member.name}
+              <li key={index} className="whitespace-nowrap">
+                <span
+                  className="cursor-pointer hover:opacity-60 transition"
+                  onMouseEnter={() => {
+                    setActiveImage(member.img);
+                    setActiveBio(member.bio);
+                    setActivePlayer("");
+                  }}
+                >
+                  {member.name}
+                </span>
               </li>
             ))}
           </ul>
