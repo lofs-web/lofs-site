@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "LOFS",
   description: "LOFS",
+  icons: {
+    icon: "/lofs favicon.jpg", // 
+  },
 };
 
 export default function RootLayout({ children }) {
