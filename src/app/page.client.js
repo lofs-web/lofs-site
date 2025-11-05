@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [activeImage, setActiveImage] = useState("");
@@ -54,9 +54,16 @@ export default function Home() {
     { name: "Astral Bandit", img: "/astralbandit.jpg", bio: "Astral Bandit creates cinematic soundscapes..." },
   ];
 
+  // Preload all images
+  useEffect(() => {
+    [...releases, ...roster].forEach(item => {
+      const img = new Image();
+      img.src = item.img;
+    });
+  }, []);
+
   return (
     <main className="bg-white text-gray-700 min-h-screen font-mono relative">
-
       {/* Top-left menu */}
       <div className="absolute top-8 left-8 text-xs flex flex-col space-y-1">
         <p
