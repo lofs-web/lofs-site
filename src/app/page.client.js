@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 
 export default function Home() {
   const [activeImage, setActiveImage] = useState("");
+  const [activeBio, setActiveBio] = useState("");
   const [activePlayer, setActivePlayer] = useState("");
   const [showReleases, setShowReleases] = useState(false);
+  const [showRoster, setShowRoster] = useState(false);
 
   const releases = [
     { title: "LOFS031 · Eye Level, Aria SL, Daniel Ball – eye level are ¡ not ok!", img: "/notok.jpg", embed: `<iframe style="border:0; width:100%; height:120px;" src="https://bandcamp.com/EmbeddedPlayer/album=4044941049/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href='https://lofs.bandcamp.com/album/eye-level-are-not-ok'>eye level are ¡ not ok ! by Eye Level, Aria SL, Daniel Ball</a></iframe>` },
@@ -22,7 +24,7 @@ export default function Home() {
     { title: "LOFS019 · Yilan - Baraka Baile", img: "/YilanCover.v3.19.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=3372038372/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/baraka-baile">Baraka Baile by Yilan</a></iframe>' },
     { title: "LOFS018 · Oshi Moon - CATFLAP", img: "/FINAL CATFLAP COVER .jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2207536627/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://oshimoon.bandcamp.com/album/catflap">CATFLAP by Oshi Moon</a></iframe>' },
     { title: "LOFS017 · FLOCO - Like the soil", img: "/COVER REALLY SMALL.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2512586847/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://flocouniverse.bandcamp.com/album/like-the-soil">Like the soil by FLOCO</a></iframe>' },
-    { title: "LOFS016 · Chud God & 96 Back - Burn Tool (96 Back’s Scorched Earth Reburn)", img: "/FINAL REMIX COVER.png", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=1575541151/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://96back1.bandcamp.com/track/burn-tool-96-back-s-scorched-earth-reburn">Burn Tool (96 Back’s Scorched Earth Reburn) by Chud God & 96 Back</a></iframe>' },
+    { title: "LOFS016 · Chud God & 96 Back - Burn Tool (96 Back’s Scorched Earth Reburn)", img: "/FINAL REMIX COVER.png", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=1575541151/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://96back1.bandcamp.com/track/burn-tool-96-back-s-scorched-earth-reburn">Burn Tool (96 Back’s Scorched Earth Reburn) by Chud God &amp; 96 Back</a></iframe>' },
     { title: "LOFS015 · Number One - The Star", img: "/FINLA V2.png", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=85280984/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://number-one.bandcamp.com/album/the-star">The Star by Number One</a></iframe>' },
     { title: "LOFS014 · eleu - Dolce Cabana", img: "/Dolce FINAL COVER BANDCAMP.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=2735137211/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://eleu.bandcamp.com/track/dolce-cabana">Dolce Cabana by eleu</a></iframe>' },
     { title: "LOFS013 · Olson - Overlapping Shadows", img: "/OS FINAL COVER SMALL BANDCAMP.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2569098894/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://olson.bandcamp.com/album/overlapping-shadows">Overlapping Shadows by Olson</a></iframe>' },
@@ -40,24 +42,44 @@ export default function Home() {
     { title: "LOFS001 · Mike Drones - 3D EP", img: "/MIKE DRONES EPM COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2658570006/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/3d-ep">3D EP by Mike Drones</a></iframe>' },
   ];
 
-  // Preload release images
-  useEffect(() => {
-    releases.forEach(item => {
-      const img = new Image();
-      img.src = item.img;
-    });
-  }, [releases]);
+  const roster = [
+    { 
+      name: "Daniel Ball", 
+      img: "/danielball.jpg", 
+      bio: "Daniel Ball is a producer, DJ and multidisciplinary artist. Spanning commissioned composition for fashion and film, hyperactive dance pop with collaborators Elphi and Aria SL, his music is characterised by an early background in jazz and classical followed by a strong shift towards modern electronic production. Recent production work includes a score Yenesai’s SS25 runway show at the Palais De Tokyo (alongside longtime collaborator Aria SL) and Elphi’s ‘Lullaby’, alongside research into the affective nature of bass music through ending summers.",
+      link: "https://www.instagram.com/__danielball__/"
+    },
+    { name: "FLOCO", img: "/floco.png", bio: "Singer, producer and violinist FLOCO inhabits a world between the old and the new. Weaving remnants of her musical upbringing on English folk music through live electronics and experimental production, FLOCO explores the more abstract lands of Cyberfolk and Dream Pop. ", link: "https://www.instagram.com/floco_rj/" },
+    { name: "Halden Cooke", img: "/astralhalden.jpg", bio: "Astral Bandit crafts immersive sonic worlds that stretch between dreamlike introspection and kinetic dancefloor energy.  A core member of bands The Long Faces and Sons of Ivaldi with experimental and art folk touches, Astral Bandit is also drawn to the faster subgenres of techno and trance, they’ve shaped a signature sound defined by hypnotic pulses, shadowy textures, and unexpected twists at every turn.", link: "https://www.instagram.com/astral.bandit/" },
+    { name: "Jabes", img: "/jabes copy.jpg", bio: "Jabes is a London-based composer and producer known for sculpting immersive, high-tension sound worlds that bridge experimental electronic music and cinematic design. With a background in UK club culture and a focus on sonic detail, his work is equally at home on the dancefloor or the screen.", link: "https://www.instagram.com/j.abes_/" },
+    { name: "Olson", img: "/olson.jpg", bio: "Olson is a Sheffield-based producer and composer whose work drifts between introspective ambient soundscapes and high-velocity club mutations. Since 2023, he has been releasing a series of immersive projects via the LOFS label -  a diverse body of work, covering every shade of the ambient spectrum. Through heavy sample manipulation and synthesis, Olson creates vivid textural worlds - auditory myths that evoke something ambiguous yet ultimately peaceful and sincere. ", link: "https://www.instagram.com/olson_fus/" },
+    { name: "Oshi Moon", img: "/jabes c.jpg", bio: " Underground Pop star Oshi Moon is obsessed with exploring duality through their art, treading the knife's edge of digital and analogue, hard and soft, masculine and feminine. Piecing together discarded fragments of the net, Oshi wields multiple creative disciplines to manifest his latest project CATFLAP.", link: "https://www.instagram.com/oshi_moon/" },
+    { name: "Renslink", img: "/renslink3000.jpg", bio: "Renslink is an Electronic music producer and live performer based in Manchester UK. He cultivates a unique sound through deep experimentation and exploration of new and interesting ideas, pushing the boundaries of every corner of electronic music from Ambient to Club.", link: "https://www.instagram.com/renslink/" },
+    { name: "Stolen Velour", img: "/jonas.png", bio: "Stolen Velour is a Leeds-based experimental club producer and vocalist whose music fuses glitch-inspired sound design, UK-funky rhythms, hyperpop energy, and euphoric club beats to create immersive, visceral electronic tracks. With collaborations like Cali Girl For Now, he blends pop sensibilities, nostalgic lo-fi textures, and post-internet experimentalism.", link: "https://www.instagram.com/stolenvelour__/" },
+    { name: "Ziyiz", img: "/ZiyizPress 2.jpg", bio: "Ziyiz is a Leeds-based composer and sound artist whose work blends experimental electronics, ambient abstraction, and corrupted, immerseive techno. Drawing on generative processes, AI, and speculative design, their music constructs fractured sonic worlds where memory, artifact, and signal loss converge.", link: "https://www.instagram.com/ziyiziyiziyiz/" },
+  ];
+
+  // Preload all release and roster images
+useEffect(() => {
+  [...releases, ...roster].forEach(item => {
+    const img = new Image();
+    img.src = item.img;
+  });
+}, [releases, roster]);
+
 
   return (
     <main className="bg-white text-gray-700 min-h-screen font-mono relative">
 
-      {/* Top‑left menu */}
+      {/* Top-left menu */}
       <div className="absolute top-8 left-8 text-xs flex flex-col space-y-1">
         <p
           className="cursor-pointer"
           onClick={() => {
             setShowReleases(false);
+            setShowRoster(false);
             setActiveImage("");
+            setActiveBio("");
             setActivePlayer("");
           }}
         >
@@ -69,11 +91,26 @@ export default function Home() {
             className="hover:underline cursor-pointer"
             onMouseEnter={() => {
               setShowReleases(true);
+              setShowRoster(false);
               setActiveImage("");
+              setActiveBio("");
               setActivePlayer("");
             }}
           >
             label discography
+          </span>
+          {" · "}
+          <span
+            className="hover:underline cursor-pointer"
+            onMouseEnter={() => {
+              setShowRoster(true);
+              setShowReleases(false);
+              setActiveImage("");
+              setActiveBio("");
+              setActivePlayer("");
+            }}
+          >
+            publishing roster
           </span>
         </p>
       </div>
@@ -93,6 +130,7 @@ export default function Home() {
                   className="cursor-pointer hover:opacity-60 transition"
                   onMouseEnter={() => {
                     setActiveImage(release.img);
+                    setActiveBio("");
                     setActivePlayer("");
                   }}
                 >
@@ -104,19 +142,60 @@ export default function Home() {
         </div>
       )}
 
+      {/* Roster list */}
+      {showRoster && (
+        <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 w-[40rem]">
+          <ul className="text-center text-sm space-y-1">
+            {roster.map((member, index) => (
+              <li key={index} className="whitespace-nowrap">
+                <span
+                  className="cursor-pointer hover:opacity-60 transition"
+                  onMouseEnter={() => {
+                    setActiveImage(member.img);
+                    setActiveBio(member.bio);
+                    setActivePlayer("");
+                  }}
+                >
+                  {member.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* Active section */}
-      {activeImage && showReleases && (
+      {activeImage && (showReleases || showRoster) && (
         <div className="absolute top-20 right-20 text-right max-w-xs">
           <img src={activeImage} alt="cover" className="w-72 rounded-lg transition-all duration-300" />
-          <button
-            onClick={() => {
-              const current = releases.find(r => r.img === activeImage);
-              setActivePlayer(current?.embed || "");
-            }}
-            className="text-xs block mt-1 hover:underline cursor-pointer"
-          >
-            listen
-          </button>
+          {activeBio && <p className="mt-2 text-xs">{activeBio}</p>}
+
+          {/* Listen or More */}
+          {showReleases ? (
+            <button
+              onClick={() => {
+                const current = releases.find(r => r.img === activeImage);
+                setActivePlayer(current?.embed || "");
+              }}
+              className="text-xs block mt-1 hover:underline cursor-pointer"
+            >
+              listen
+            </button>
+          ) : (
+            <>
+              <a
+                href={roster.find(m => m.img === activeImage)?.link || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs block mt-1 hover:underline"
+              >
+                more
+              </a>
+              <a href="mailto:lofspublishing@gmail.com" className="text-xs block mt-1 hover:underline">contact</a>
+            </>
+          )}
+
+          {/* Bandcamp embed */}
           {activePlayer && (
             <div className="mt-3" dangerouslySetInnerHTML={{ __html: activePlayer }} />
           )}
