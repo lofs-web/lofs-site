@@ -5,27 +5,37 @@ export default function Home() {
   const [activeImage, setActiveImage] = useState("");
   const [activePlayer, setActivePlayer] = useState("");
   const [showReleases, setShowReleases] = useState(false);
+  const [activeRelease, setActiveRelease] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const releases = [
-    { title: "LOFS031 · Eye Level, Aria SL, Daniel Ball – eye level are ¡ not ok!", img: "/notok.jpg", embed: `<iframe style="border:0; width:100%; height:120px;" src="https://bandcamp.com/EmbeddedPlayer/album=4044941049/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href='https://lofs.bandcamp.com/album/eye-level-are-not-ok'>eye level are ¡ not ok ! by Eye Level, Aria SL, Daniel Ball</a></iframe>` },
-    { title: "LOFS030 · Cali Girl For Now – PITY PARTY", img: "/pityparty.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2262603832/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://caligirlfornow.bandcamp.com/album/pity-party">PITY PARTY by Cali Girl For Now</a></iframe>' },
-    { title: "LOFS029 · e O - e O", img: "/E O FINAL JPEG.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1610928897/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/e-o">e O by e O</a></iframe>' },
-    // … keep rest unchanged
+    {
+      title: "LOFS031 · Eye Level, Aria SL, Daniel Ball – eye level are ¡ not ok!",
+      img: "/notok.jpg",
+      embed: `<iframe style="border:0; width:100%; height:180px;" src="https://bandcamp.com/EmbeddedPlayer/album=4044941049/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href='https://lofs.bandcamp.com/album/eye-level-are-not-ok'>eye level are ¡ not ok ! by Eye Level, Aria SL, Daniel Ball</a></iframe>`,
+    },
+    {
+      title: "LOFS030 · Cali Girl For Now – PITY PARTY",
+      img: "/pityparty.jpg",
+      embed: `<iframe style="border:0; width:100%; height:180px;" src="https://bandcamp.com/EmbeddedPlayer/album=2262603832/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href='https://caligirlfornow.bandcamp.com/album/pity-party'>PITY PARTY by Cali Girl For Now</a></iframe>`,
+    },
+    {
+      title: "LOFS029 · e O - e O",
+      img: "/E O FINAL JPEG.jpg",
+      embed: `<iframe style="border:0; width:100%; height:180px;" src="https://bandcamp.com/EmbeddedPlayer/album=1610928897/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href='https://lofs.bandcamp.com/album/e-o'>e O by e O</a></iframe>`,
+    },
   ];
 
   useEffect(() => {
-    releases.forEach(item => {
+    setIsMobile(window.innerWidth < 768);
+    releases.forEach((item) => {
       const img = new Image();
       img.src = item.img;
     });
-  }, [releases]);
-
-  // detect mobile for tap-based behavior
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  }, []);
 
   return (
     <main className="bg-white text-gray-700 min-h-screen font-mono relative overflow-x-hidden">
-      
       {/* Top-left menu */}
       <div className="absolute top-8 left-8 text-xs flex flex-col space-y-1 z-20">
         <p
@@ -34,6 +44,7 @@ export default function Home() {
             setShowReleases(false);
             setActiveImage("");
             setActivePlayer("");
+            setActiveRelease(null);
           }}
         >
           ✿ LOFS
@@ -58,14 +69,21 @@ export default function Home() {
       {/* Releases list */}
       {showReleases && (
         <div className="absolute md:top-[55%] top-[50%] left-1/2 transform -translate-x-1/2 w-[90vw] md:w-[40rem] max-h-[12rem] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400/0 scrollbar-track-transparent hover:scrollbar-thumb-gray-400/50 scroll-smooth z-10">
-          <ul className="text-center text-sm space-y-1">
+          <ul className="text-center text-sm space-y-1 break-words">
             {releases.map((release, index) => (
-              <li key={index} className="whitespace-nowrap">
+              <li key={index} className="px-2">
                 <span
-                  className="cursor-pointer hover:opacity-60 transition"
-                  onMouseEnter={() => !isMobile && setActiveImage(release.img)}
+                  className="cursor-pointer hover:opacity-60 transition block"
+                  onMouseEnter={() => {
+                    if (!isMobile) {
+                      setActiveImage(release.img);
+                      setActivePlayer("");
+                    }
+                  }}
                   onClick={() => {
                     if (isMobile) {
+                      setActiveRelease(release);
+                    } else {
                       setActiveImage(release.img);
                       setActivePlayer("");
                     }
@@ -79,27 +97,23 @@ export default function Home() {
         </div>
       )}
 
-      {/* Active section */}
-      {activeImage && showReleases && (
+      {/* Desktop inline behaviour */}
+      {!isMobile && activeImage && showReleases && (
         <div className="absolute top-20 md:right-20 right-1/2 md:translate-x-0 translate-x-1/2 md:text-right text-center max-w-xs w-[80vw] md:w-auto">
           <img
             src={activeImage}
             alt="cover"
             className="w-64 md:w-72 rounded-lg mx-auto md:mx-0 transition-all duration-300"
           />
-
-          {/* Listen button */}
           <button
             onClick={() => {
-              const current = releases.find(r => r.img === activeImage);
+              const current = releases.find((r) => r.img === activeImage);
               setActivePlayer(current?.embed || "");
             }}
             className="text-xs block mt-2 hover:underline cursor-pointer"
           >
             listen
           </button>
-
-          {/* Bandcamp embed */}
           {activePlayer && (
             <div
               className="mt-3 w-full md:w-[18rem] mx-auto md:mx-0"
@@ -108,6 +122,46 @@ export default function Home() {
           )}
         </div>
       )}
+
+      {/* Mobile pop-up modal */}
+      {isMobile && activeRelease && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-30 p-4">
+          <div className="bg-white rounded-xl shadow-lg p-4 max-w-sm w-full text-center relative animate-fadeIn">
+            <button
+              onClick={() => setActiveRelease(null)}
+              className="absolute top-2 right-3 text-gray-500 hover:text-black text-lg"
+            >
+              ✕
+            </button>
+            <img
+              src={activeRelease.img}
+              alt={activeRelease.title}
+              className="w-full rounded-lg mb-3"
+            />
+            <p className="text-xs mb-3 break-words">{activeRelease.title}</p>
+            <div
+              className="w-full"
+              dangerouslySetInnerHTML={{ __html: activeRelease.embed }}
+            />
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.2s ease-out forwards;
+        }
+      `}</style>
     </main>
   );
 }
