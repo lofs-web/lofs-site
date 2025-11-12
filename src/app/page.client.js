@@ -71,7 +71,7 @@ export default function Home() {
       });
       const data = await res.json();
       if (res.ok) {
-        setSuccessMessage("Thanks for signing up!");
+        setSuccessMessage("Thanks :) !");
         setEmail("");
         setShowMailingList(false);
       } else {
