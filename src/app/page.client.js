@@ -73,7 +73,7 @@ export default function Home() {
       if (res.ok) {
         setSuccessMessage("Thanks :) !");
         setEmail("");
-        setShowMailingList(false);
+        // Mailing list stays open now
       } else {
         setErrorMessage(data.error || "Could not subscribe");
       }
@@ -190,7 +190,6 @@ export default function Home() {
           />
           {activeBio && <p className="mt-2 text-xs">{activeBio}</p>}
 
-          {/* Listen button stays under image */}
           <button
             onClick={() => {
               const current = releases.find((r) => r.img === activeImage);
@@ -201,7 +200,6 @@ export default function Home() {
             listen
           </button>
 
-          {/* Embedded player appears below listen */}
           {activePlayer && (
             <div className="mt-2" dangerouslySetInnerHTML={{ __html: activePlayer }} />
           )}
