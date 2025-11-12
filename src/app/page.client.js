@@ -6,11 +6,16 @@ export default function Home() {
   const [activeBio, setActiveBio] = useState("");
   const [activePlayer, setActivePlayer] = useState("");
   const [showReleases, setShowReleases] = useState(false);
-  const [activeRelease, setActiveRelease] = useState(null); // <-- mobile full-screen release
+  const [activeRelease, setActiveRelease] = useState(null); // mobile full-screen release
+  const [showMailingList, setShowMailingList] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const releases = [
     { title: "LOFS031 · Eye Level, Aria SL, Daniel Ball – eye level are ¡ not ok!", img: "/notok.jpg", embed: `<iframe style="border:0; width:100%; height:120px;" src="https://bandcamp.com/EmbeddedPlayer/album=4044941049/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href='https://lofs.bandcamp.com/album/eye-level-are-not-ok'>eye level are ¡ not ok ! by Eye Level, Aria SL, Daniel Ball</a></iframe>` },
-     { title: "LOFS030 · Cali Girl For Now – PITY PARTY", img: "/pityparty.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2262603832/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://caligirlfornow.bandcamp.com/album/pity-party">PITY PARTY by Cali Girl For Now</a></iframe>' },
+    { title: "LOFS030 · Cali Girl For Now – PITY PARTY", img: "/pityparty.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2262603832/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://caligirlfornow.bandcamp.com/album/pity-party">PITY PARTY by Cali Girl For Now</a></iframe>' },
     { title: "LOFS029 · e O - e O", img: "/E O FINAL JPEG.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1610928897/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/e-o">e O by e O</a></iframe>' },
     { title: "LOFS028 · Oshi Moon – rhinestones", img: "/rhinestones.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=4028889802/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://oshimoon.bandcamp.com/track/rhinestones">rhinestones by Oshi Moon</a></iframe>' },
     { title: "LOFS027 · eleu – r u shy or smthn", img: "/r u FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=3260262845/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://eleu.bandcamp.com/track/r-u-shy-or-smthn">r u shy or smthn by eleu</a></iframe>' },
@@ -42,12 +47,42 @@ export default function Home() {
     { title: "LOFS001 · Mike Drones - 3D EP", img: "/MIKE DRONES EPM COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2658570006/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/3d-ep">3D EP by Mike Drones</a></iframe>' },
   ];
 
-  // Preload all release images
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  // efficient preload (no setState per image)
   useEffect(() => {
-    releases.forEach(item => new Image().src = item.img);
+    releases.forEach(item => {
+      const img = new Image();
+      img.src = item.img;
+    });
   }, [releases]);
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const handleSubscribe = async () => {
+    if (!email) return;
+    setIsSubmitting(true);
+    setSuccessMessage("");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSuccessMessage("Thanks for signing up!");
+        setEmail("");
+        setShowMailingList(false);
+      } else {
+        setErrorMessage(data.error || "Could not subscribe");
+      }
+    } catch {
+      setErrorMessage("Network error, please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <main className="bg-white text-gray-700 min-h-screen font-mono relative">
@@ -62,6 +97,7 @@ export default function Home() {
             setActiveBio("");
             setActivePlayer("");
             setActiveRelease(null);
+            setShowMailingList(false);
           }}
         >
           ✿ LOFS
@@ -73,21 +109,45 @@ export default function Home() {
             onMouseEnter={() => {
               if (!isMobile) {
                 setShowReleases(true);
+                setShowMailingList(false);
                 setActiveImage("");
                 setActiveBio("");
                 setActivePlayer("");
               }
             }}
-            onClick={() => { if (isMobile) setShowReleases(true); }}
+            onClick={() => {
+              if (isMobile) {
+                setShowReleases(true);
+                setShowMailingList(false);
+              }
+            }}
           >
             label discography
+          </span>
+          <span className="mx-2">·</span>
+          <span
+            className="hover:underline cursor-pointer"
+            onMouseEnter={() => {
+              if (!isMobile) {
+                setShowMailingList(true);
+                setShowReleases(false);
+              }
+            }}
+            onClick={() => {
+              if (isMobile) {
+                setShowMailingList(true);
+                setShowReleases(false);
+              }
+            }}
+          >
+            mailing list
           </span>
         </p>
       </div>
 
       {/* Flower */}
       <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2">
-        <img src="/flower.jpg" alt="flower" className="w-64" />
+        <img src="/flower.jpg" alt="flower" className="w-64" loading="lazy" />
       </div>
 
       {/* Releases list */}
@@ -101,12 +161,14 @@ export default function Home() {
                   onMouseEnter={() => {
                     if (!isMobile) {
                       setActiveImage(release.img);
-                      setActiveBio("");
                       setActivePlayer("");
                     }
                   }}
                   onClick={() => {
-                    if (isMobile) setActiveRelease(release);
+                    if (isMobile) {
+                      setActiveRelease(release);
+                      setShowMailingList(false);
+                    }
                   }}
                 >
                   {release.title}
@@ -120,27 +182,102 @@ export default function Home() {
       {/* Desktop hover preview */}
       {activeImage && showReleases && !isMobile && (
         <div className="absolute top-20 right-20 text-right max-w-xs">
-          <img src={activeImage} alt="cover" className="w-72 rounded-lg transition-all duration-300" />
+          <img
+            src={activeImage}
+            alt="cover"
+            className="w-72 rounded-lg transition-all duration-300"
+            loading="lazy"
+          />
           {activeBio && <p className="mt-2 text-xs">{activeBio}</p>}
+
+          {/* Listen button stays under image */}
           <button
             onClick={() => {
-              const current = releases.find(r => r.img === activeImage);
+              const current = releases.find((r) => r.img === activeImage);
               setActivePlayer(current?.embed || "");
             }}
             className="text-xs block mt-1 hover:underline cursor-pointer"
           >
             listen
           </button>
-          {activePlayer && <div className="mt-3" dangerouslySetInnerHTML={{ __html: activePlayer }} />}
+
+          {/* Embedded player appears below listen */}
+          {activePlayer && (
+            <div className="mt-2" dangerouslySetInnerHTML={{ __html: activePlayer }} />
+          )}
+        </div>
+      )}
+
+      {/* Mailing list box (desktop) */}
+      {showMailingList && !isMobile && (
+        <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 w-[28rem] flex flex-col space-y-2">
+          <div className="flex space-x-2 items-center">
+            <input
+              type="email"
+              placeholder="email address"
+              className="border px-2 py-1 flex-1 rounded text-xs outline-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <button
+              className="bg-gray-800 text-white px-3 py-1 rounded text-xs"
+              onClick={handleSubscribe}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Sign up"}
+            </button>
+          </div>
+          {successMessage && <p className="text-green-600 text-xs">{successMessage}</p>}
+          {errorMessage && <p className="text-red-600 text-xs">{errorMessage}</p>}
         </div>
       )}
 
       {/* Mobile full-screen release */}
       {isMobile && activeRelease && (
         <div className="fixed inset-0 bg-white z-50 p-6 overflow-auto">
-          <button className="text-xs mb-4 underline" onClick={() => setActiveRelease(null)}>✕ close</button>
-          <img src={activeRelease.img} alt={activeRelease.title} className="w-full rounded-lg mb-4" />
+          <button
+            className="text-xs mb-4 underline"
+            onClick={() => setActiveRelease(null)}
+          >
+            ✕ close
+          </button>
+          <img
+            src={activeRelease.img}
+            alt={activeRelease.title}
+            className="w-full rounded-lg mb-4"
+            loading="lazy"
+          />
           <div dangerouslySetInnerHTML={{ __html: activeRelease.embed }} />
+        </div>
+      )}
+
+      {/* Mobile mailing list */}
+      {isMobile && showMailingList && (
+        <div className="fixed inset-0 bg-white z-50 p-6">
+          <button
+            className="text-xs mb-4 underline"
+            onClick={() => setShowMailingList(false)}
+          >
+            ✕ close
+          </button>
+          <div className="flex space-x-2 items-center">
+            <input
+              type="email"
+              placeholder="email address"
+              className="border px-2 py-1 flex-1 rounded text-xs outline-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <button
+              className="bg-gray-800 text-white px-3 py-1 rounded text-xs"
+              onClick={handleSubscribe}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Sign up"}
+            </button>
+          </div>
+          {successMessage && <p className="text-green-600 text-xs mt-1">{successMessage}</p>}
+          {errorMessage && <p className="text-red-600 text-xs mt-1">{errorMessage}</p>}
         </div>
       )}
     </main>
