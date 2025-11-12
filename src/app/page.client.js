@@ -49,6 +49,14 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isMobile, setIsMobile] = useState(false);
 
+  // ---- Preload all release images to prevent lag ----
+  useEffect(() => {
+    releases.forEach(release => {
+      const img = new Image();
+      img.src = release.img;
+    });
+  }, []);
+
   // Mobile detection
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -162,8 +170,9 @@ export default function Home() {
           <ul className="text-center text-sm space-y-1 w-full">
             {releases.map((release, index) => (
               <li key={index} className="px-2 break-words md:break-normal">
+                {/* Hover only on text */}
                 <span
-                  className="cursor-pointer hover:opacity-60 transition block"
+                  className="cursor-pointer hover:opacity-60 transition"
                   onMouseEnter={() => {
                     if (!isMobile) {
                       setActiveImage(release.img);
