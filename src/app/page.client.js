@@ -13,6 +13,16 @@ export default function Home() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Mobile detection with resize listener
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // run on mount
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const releases = [
     { title: "LOFS031 · Eye Level, Aria SL, Daniel Ball – eye level are ¡ not ok!", img: "/notok.jpg", embed: `<iframe style="border:0; width:100%; height:120px;" src="https://bandcamp.com/EmbeddedPlayer/album=4044941049/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href='https://lofs.bandcamp.com/album/eye-level-are-not-ok'>eye level are ¡ not ok ! by Eye Level, Aria SL, Daniel Ball</a></iframe>` },
     { title: "LOFS030 · Cali Girl For Now – PITY PARTY", img: "/pityparty.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2262603832/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://caligirlfornow.bandcamp.com/album/pity-party">PITY PARTY by Cali Girl For Now</a></iframe>' },
@@ -47,11 +57,9 @@ export default function Home() {
     { title: "LOFS001 · Mike Drones - 3D EP", img: "/MIKE DRONES EPM COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2658570006/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/3d-ep">3D EP by Mike Drones</a></iframe>' },
   ];
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-
-  // efficient preload (no setState per image)
+  // Preload all images (efficient)
   useEffect(() => {
-    releases.forEach(item => {
+    releases.forEach((item) => {
       const img = new Image();
       img.src = item.img;
     });
@@ -73,7 +81,6 @@ export default function Home() {
       if (res.ok) {
         setSuccessMessage("Thanks :)");
         setEmail("");
-        // Mailing list stays open now
       } else {
         setErrorMessage(data.error || "Could not subscribe");
       }
