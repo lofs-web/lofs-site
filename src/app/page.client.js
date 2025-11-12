@@ -41,14 +41,13 @@ export default function Home() {
   const [activeBio, setActiveBio] = useState("");
   const [activePlayer, setActivePlayer] = useState("");
   const [showReleases, setShowReleases] = useState(false);
-  const [activeRelease, setActiveRelease] = useState(null); // mobile full-screen release
+  const [activeRelease, setActiveRelease] = useState(null);
   const [showMailingList, setShowMailingList] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isMobile, setIsMobile] = useState(false);
-  const [preloadedImages, setPreloadedImages] = useState({});
 
   // Mobile detection
   useEffect(() => {
@@ -57,17 +56,6 @@ export default function Home() {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
-
-  // Preload images once
-  useEffect(() => {
-    const cache = {};
-    releases.forEach((release) => {
-      const img = new Image();
-      img.src = release.img;
-      cache[release.img] = img;
-    });
-    setPreloadedImages(cache);
-  }, []); // run only once
 
   const handleSubscribe = async () => {
     if (!email) return;
@@ -163,20 +151,19 @@ export default function Home() {
       {/* Releases list */}
       {showReleases && (
         <div
-          className="absolute top-[55%] left-1/2 transform -translate-x-1/2 
-                     w-[40rem] md:w-[40rem] sm:max-w-[90%] max-h-[9rem] 
-                     overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400/0 
-                     scrollbar-track-transparent hover:scrollbar-thumb-gray-400/50 
-                     scroll-smooth"
+          className="
+            absolute top-[55%] left-1/2 transform -translate-x-1/2
+            w-[90%] md:w-[40rem]
+            max-h-[9rem] overflow-y-auto
+            scrollbar-thin scrollbar-thumb-gray-400/0 scrollbar-track-transparent
+            hover:scrollbar-thumb-gray-400/50 scroll-smooth
+          "
         >
-          <ul className="text-center text-sm space-y-1">
+          <ul className="text-center text-sm space-y-1 w-full">
             {releases.map((release, index) => (
-              <li
-                key={index}
-                className="px-2 break-words md:break-normal"
-              >
+              <li key={index} className="px-2 break-words md:break-normal">
                 <span
-                  className="cursor-pointer hover:opacity-60 transition"
+                  className="cursor-pointer hover:opacity-60 transition block"
                   onMouseEnter={() => {
                     if (!isMobile) {
                       setActiveImage(release.img);
@@ -225,7 +212,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Mailing list box (desktop) */}
+      {/* Mailing list (desktop) */}
       {showMailingList && !isMobile && (
         <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 w-[28rem] flex flex-col space-y-2">
           <div className="flex space-x-2 items-center">
@@ -252,18 +239,10 @@ export default function Home() {
       {/* Mobile full-screen release */}
       {isMobile && activeRelease && (
         <div className="fixed inset-0 bg-white z-50 p-6 overflow-auto">
-          <button
-            className="text-xs mb-4 underline"
-            onClick={() => setActiveRelease(null)}
-          >
+          <button className="text-xs mb-4 underline" onClick={() => setActiveRelease(null)}>
             ✕ close
           </button>
-          <img
-            src={activeRelease.img}
-            alt={activeRelease.title}
-            className="w-full rounded-lg mb-4"
-            loading="eager"
-          />
+          <img src={activeRelease.img} alt={activeRelease.title} className="w-full rounded-lg mb-4" loading="eager" />
           <div dangerouslySetInnerHTML={{ __html: activeRelease.embed }} />
         </div>
       )}
@@ -271,10 +250,7 @@ export default function Home() {
       {/* Mobile mailing list */}
       {isMobile && showMailingList && (
         <div className="fixed inset-0 bg-white z-50 p-6">
-          <button
-            className="text-xs mb-4 underline"
-            onClick={() => setShowMailingList(false)}
-          >
+          <button className="text-xs mb-4 underline" onClick={() => setShowMailingList(false)}>
             ✕ close
           </button>
           <div className="flex space-x-2 items-center">
