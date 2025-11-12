@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 const releases = [
   { title: "LOFS031 · Eye Level, Aria SL, Daniel Ball – eye level are ¡ not ok!", img: "/notok.jpg", embed: `<iframe style="border:0; width:100%; height:120px;" src="https://bandcamp.com/EmbeddedPlayer/album=4044941049/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href='https://lofs.bandcamp.com/album/eye-level-are-not-ok'>eye level are ¡ not ok ! by Eye Level, Aria SL, Daniel Ball</a></iframe>` },
   { title: "LOFS030 · Cali Girl For Now – PITY PARTY", img: "/pityparty.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2262603832/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://caligirlfornow.bandcamp.com/album/pity-party">PITY PARTY by Cali Girl For Now</a></iframe>' },
-  { title: "LOFS029 · e O - e O", img: "/E O FINAL JPEG.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1610928897/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/e-o">e O by e O</a></iframe>' },
+    { title: "LOFS029 · e O - e O", img: "/E O FINAL JPEG.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1610928897/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/e-o">e O by e O</a></iframe>' },
     { title: "LOFS028 · Oshi Moon – rhinestones", img: "/rhinestones.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=4028889802/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://oshimoon.bandcamp.com/track/rhinestones">rhinestones by Oshi Moon</a></iframe>' },
     { title: "LOFS027 · eleu – r u shy or smthn", img: "/r u FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=3260262845/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://eleu.bandcamp.com/track/r-u-shy-or-smthn">r u shy or smthn by eleu</a></iframe>' },
     { title: "LOFS026 · mega:oba – 001", img: "/001 FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1428793710/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://megaoba.bandcamp.com/album/001">001 by mega:oba</a></iframe>' },
@@ -53,7 +53,7 @@ export default function Home() {
   // Mobile detection
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile(); 
+    checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
@@ -97,7 +97,6 @@ export default function Home() {
 
   return (
     <main className="bg-white text-gray-700 min-h-screen font-mono relative">
-
       {/* Top-left menu */}
       <div className="absolute top-8 left-8 text-xs flex flex-col space-y-1">
         <p
@@ -163,13 +162,19 @@ export default function Home() {
 
       {/* Releases list */}
       {showReleases && (
-        <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 
-                        w-[40rem] sm:w-11/12 max-h-[9rem] overflow-y-auto 
-                        scrollbar-thin scrollbar-thumb-gray-400/0 scrollbar-track-transparent 
-                        hover:scrollbar-thumb-gray-400/50 scroll-smooth">
+        <div
+          className="absolute top-[55%] left-1/2 transform -translate-x-1/2 
+                     w-[40rem] md:w-[40rem] sm:max-w-[90%] max-h-[9rem] 
+                     overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400/0 
+                     scrollbar-track-transparent hover:scrollbar-thumb-gray-400/50 
+                     scroll-smooth"
+        >
           <ul className="text-center text-sm space-y-1">
             {releases.map((release, index) => (
-              <li key={index} className="break-words">
+              <li
+                key={index}
+                className="px-2 break-words md:break-normal"
+              >
                 <span
                   className="cursor-pointer hover:opacity-60 transition"
                   onMouseEnter={() => {
