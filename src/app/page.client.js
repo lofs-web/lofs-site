@@ -1,15 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
 
-// ---- Releases array (unchanged) ----
+// ---- Releases array moved outside the component to avoid re-render loops ----
 const releases = [
   { title: "LOFS031 · Eye Level, Aria SL, Daniel Ball – eye level are ¡ not ok!", img: "/notok.jpg", embed: `<iframe style="border:0; width:100%; height:120px;" src="https://bandcamp.com/EmbeddedPlayer/album=4044941049/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href='https://lofs.bandcamp.com/album/eye-level-are-not-ok'>eye level are ¡ not ok ! by Eye Level, Aria SL, Daniel Ball</a></iframe>` },
   { title: "LOFS030 · Cali Girl For Now – PITY PARTY", img: "/pityparty.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2262603832/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://caligirlfornow.bandcamp.com/album/pity-party">PITY PARTY by Cali Girl For Now</a></iframe>' },
   { title: "LOFS029 · e O - e O", img: "/E O FINAL JPEG.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1610928897/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/e-o">e O by e O</a></iframe>' },
   { title: "LOFS028 · Oshi Moon – rhinestones", img: "/rhinestones.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=4028889802/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://oshimoon.bandcamp.com/track/rhinestones">rhinestones by Oshi Moon</a></iframe>' },
-  { title: "LOFS027 · eleu – r u shy or smthn", img: "/r u FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=3260262845/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://eleu.bandcamp.com/track/r-u-shy-or-smthn">r u shy or smthn by eleu</a></iframe>' },
-  { title: "LOFS026 · mega:oba – 001", img: "/001 FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1428793710/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://megaoba.bandcamp.com/album/001">001 by mega:oba</a></iframe>' },
-  { title: "LOFS025 · Eye Level, Aria SL, Daniel Ball – Eye Level", img: "/EYELEVEL ARTWORK.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2724882092/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/eye-level">Eye Level by Eye Level, Aria SL, Daniel Ball</a></iframe>' },
+    { title: "LOFS027 · eleu – r u shy or smthn", img: "/r u FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=3260262845/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://eleu.bandcamp.com/track/r-u-shy-or-smthn">r u shy or smthn by eleu</a></iframe>' },
+    { title: "LOFS026 · mega:oba – 001", img: "/001 FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1428793710/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://megaoba.bandcamp.com/album/001">001 by mega:oba</a></iframe>' },
+    { title: "LOFS025 · Eye Level, Aria SL, Daniel Ball – Eye Level", img: "/EYELEVEL ARTWORK.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2724882092/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/eye-level">Eye Level by Eye Level, Aria SL, Daniel Ball</a></iframe>' },
     { title: "LOFS024 · Chud God - CHUD2", img: "/CHUD2COVER.jpeg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=423342926/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/chud2">CHUD2 by Chud God</a></iframe>' },
     { title: "LOFS023 · Renslink - In Hope House", img: "/FINAL hopehouse.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=2347743000/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://renslink.bandcamp.com/track/in-hope-house">In Hope House by Renslink</a></iframe>' },
     { title: "LOFS022 · Jamie Genome - Not Quite", img: "/COVER PROJECT 7 BRIGHTER JPEG.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=399362207/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://jamiegenome.bandcamp.com/album/not-quite">Not Quite by Jamie Genome</a></iframe>' },
@@ -49,35 +49,25 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [preloadedImages, setPreloadedImages] = useState({});
-  const [mobileActiveImage, setMobileActiveImage] = useState(null);
 
   // Mobile detection
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
+    checkMobile(); 
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Preload images once (desktop only)
+  // Preload images once
   useEffect(() => {
-    if (!isMobile) {
-      const cache = {};
-      releases.forEach((release) => {
-        const img = new Image();
-        img.src = release.img;
-        cache[release.img] = img;
-      });
-      setPreloadedImages(cache);
-    }
-  }, [isMobile]);
-
-  // Reset mobile image on release change
-  useEffect(() => {
-    if (isMobile && activeRelease) {
-      setMobileActiveImage(null);
-    }
-  }, [activeRelease, isMobile]);
+    const cache = {};
+    releases.forEach((release) => {
+      const img = new Image();
+      img.src = release.img;
+      cache[release.img] = img;
+    });
+    setPreloadedImages(cache);
+  }, []); // run only once
 
   const handleSubscribe = async () => {
     if (!email) return;
@@ -107,6 +97,7 @@ export default function Home() {
 
   return (
     <main className="bg-white text-gray-700 min-h-screen font-mono relative">
+
       {/* Top-left menu */}
       <div className="absolute top-8 left-8 text-xs flex flex-col space-y-1">
         <p
@@ -122,6 +113,7 @@ export default function Home() {
         >
           ✿ LOFS
         </p>
+
         <p className="cursor-default">
           <span
             className="hover:underline cursor-pointer"
@@ -208,6 +200,7 @@ export default function Home() {
             loading="eager"
           />
           {activeBio && <p className="mt-2 text-xs">{activeBio}</p>}
+
           <button
             onClick={() => {
               const current = releases.find((r) => r.img === activeImage);
@@ -217,6 +210,7 @@ export default function Home() {
           >
             listen
           </button>
+
           {activePlayer && (
             <div className="mt-2" dangerouslySetInnerHTML={{ __html: activePlayer }} />
           )}
@@ -256,29 +250,13 @@ export default function Home() {
           >
             ✕ close
           </button>
-
-          {/* Image appears only after iframe has loaded */}
-          {mobileActiveImage && (
-            <img
-              src={mobileActiveImage}
-              alt={activeRelease.title}
-              className="w-full rounded-lg mb-4"
-              loading="eager"
-            />
-          )}
-
-          <div
-            className="mobile-iframe-container"
-            dangerouslySetInnerHTML={{ __html: activeRelease.embed }}
-            ref={(el) => {
-              if (el) {
-                const iframe = el.querySelector("iframe");
-                if (iframe && !iframe.onload) {
-                  iframe.onload = () => setMobileActiveImage(activeRelease.img);
-                }
-              }
-            }}
+          <img
+            src={activeRelease.img}
+            alt={activeRelease.title}
+            className="w-full rounded-lg mb-4"
+            loading="eager"
           />
+          <div dangerouslySetInnerHTML={{ __html: activeRelease.embed }} />
         </div>
       )}
 
