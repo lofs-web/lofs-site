@@ -33,6 +33,7 @@ const releases = [
     { title: "LOFS003 · Ziyiz - Spells", img: "/Spells FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=229374855/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/spells">Spells by Ziyiz</a></iframe>' },
     { title: "LOFS002 · Chud God - Chud Tools", img: "/Chud toolsEPM COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=4224251050/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/chud-tools">Chud Tools by Chud God</a></iframe>' },
     { title: "LOFS001 · Mike Drones - 3D EP", img: "/MIKE DRONES EPM COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2658570006/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/3d-ep">3D EP by Mike Drones</a></iframe>' },
+
 ];
 
 export default function Home() {
@@ -117,7 +118,7 @@ export default function Home() {
               if (!isMobile) {
                 setShowReleases(true);
                 setShowMailingList(false);
-                setShowSpotify(false); // hide Spotify
+                setShowSpotify(false);
                 setActiveImage("");
                 setActiveBio("");
                 setActivePlayer("");
@@ -127,7 +128,7 @@ export default function Home() {
               if (isMobile) {
                 setShowReleases(true);
                 setShowMailingList(false);
-                setShowSpotify(false); // hide Spotify
+                setShowSpotify(false);
               }
             }}
           >
@@ -140,14 +141,14 @@ export default function Home() {
               if (!isMobile) {
                 setShowMailingList(true);
                 setShowReleases(false);
-                setShowSpotify(false); // hide Spotify
+                setShowSpotify(false);
               }
             }}
             onClick={() => {
               if (isMobile) {
                 setShowMailingList(true);
                 setShowReleases(false);
-                setShowSpotify(false); // hide Spotify
+                setShowSpotify(false);
               }
             }}
           >
@@ -167,9 +168,31 @@ export default function Home() {
         />
       </div>
 
-      {/* Spotify player */}
-      {showSpotify && (
+      {/* Desktop Spotify player */}
+      {!isMobile && showSpotify && (
         <div className="absolute top-8 right-8 w-[22rem] z-50">
+          <iframe
+            data-testid="embed-iframe"
+            style={{ borderRadius: "12px" }}
+            src="https://open.spotify.com/embed/playlist/5bQWJm9RXikVsUTn5MuXoS?utm_source=generator&theme=0"
+            width="100%"
+            height="352"
+            frameBorder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          ></iframe>
+        </div>
+      )}
+
+      {/* Mobile Spotify modal */}
+      {isMobile && showSpotify && (
+        <div className="fixed inset-0 bg-white z-50 p-6 overflow-auto">
+          <button
+            className="text-xs mb-4 underline"
+            onClick={() => setShowSpotify(false)}
+          >
+            ✕ close
+          </button>
           <iframe
             data-testid="embed-iframe"
             style={{ borderRadius: "12px" }}
