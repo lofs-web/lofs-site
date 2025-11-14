@@ -1,12 +1,38 @@
 "use client";
 import { useState, useEffect } from "react";
 
-// ---- Releases array moved outside the component to avoid re-render loops ----
 const releases = [
   { title: "LOFS031 · Eye Level, Aria SL, Daniel Ball – eye level are ¡ not ok!", img: "/notok.jpg", embed: `<iframe style="border:0; width:100%; height:120px;" src="https://bandcamp.com/EmbeddedPlayer/album=4044941049/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href='https://lofs.bandcamp.com/album/eye-level-are-not-ok'>eye level are ¡ not ok ! by Eye Level, Aria SL, Daniel Ball</a></iframe>` },
   { title: "LOFS030 · Cali Girl For Now – PITY PARTY", img: "/pityparty.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2262603832/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://caligirlfornow.bandcamp.com/album/pity-party">PITY PARTY by Cali Girl For Now</a></iframe>' },
-  { title: "LOFS029 · e O - e O", img: "/E O FINAL JPEG.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1610928897/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/e-o">e O by e O</a></iframe>' },
-  // ... keep all other releases unchanged ...
+    { title: "LOFS029 · e O - e O", img: "/E O FINAL JPEG.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1610928897/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/e-o">e O by e O</a></iframe>' },
+    { title: "LOFS028 · Oshi Moon – rhinestones", img: "/rhinestones.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=4028889802/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://oshimoon.bandcamp.com/track/rhinestones">rhinestones by Oshi Moon</a></iframe>' },
+    { title: "LOFS027 · eleu – r u shy or smthn", img: "/r u FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=3260262845/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://eleu.bandcamp.com/track/r-u-shy-or-smthn">r u shy or smthn by eleu</a></iframe>' },
+    { title: "LOFS026 · mega:oba – 001", img: "/001 FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1428793710/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://megaoba.bandcamp.com/album/001">001 by mega:oba</a></iframe>' },
+    { title: "LOFS025 · Eye Level, Aria SL, Daniel Ball – Eye Level", img: "/EYELEVEL ARTWORK.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2724882092/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/eye-level">Eye Level by Eye Level, Aria SL, Daniel Ball</a></iframe>' },
+    { title: "LOFS024 · Chud God - CHUD2", img: "/CHUD2COVER.jpeg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=423342926/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/chud2">CHUD2 by Chud God</a></iframe>' },
+    { title: "LOFS023 · Renslink - In Hope House", img: "/FINAL hopehouse.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=2347743000/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://renslink.bandcamp.com/track/in-hope-house">In Hope House by Renslink</a></iframe>' },
+    { title: "LOFS022 · Jamie Genome - Not Quite", img: "/COVER PROJECT 7 BRIGHTER JPEG.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=399362207/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://jamiegenome.bandcamp.com/album/not-quite">Not Quite by Jamie Genome</a></iframe>' },
+    { title: "LOFS021 · Olson - Diegesis", img: "/Diegesis Cover.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2123132406/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://olson.bandcamp.com/album/diegesis">Diegesis by Olson</a></iframe>' },
+    { title: "LOFS020 · Number One - Solar Breath", img: "/solar breath cover.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1730995778/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://number-one.bandcamp.com/album/solar-breath">Solar Breath by Number One</a></iframe>' },
+    { title: "LOFS019 · Yilan - Baraka Baile", img: "/YilanCover.v3.19.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=3372038372/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/baraka-baile">Baraka Baile by Yilan</a></iframe>' },
+    { title: "LOFS018 · Oshi Moon - CATFLAP", img: "/FINAL CATFLAP COVER .jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2207536627/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://oshimoon.bandcamp.com/album/catflap">CATFLAP by Oshi Moon</a></iframe>' },
+    { title: "LOFS017 · FLOCO - Like the soil", img: "/COVER REALLY SMALL.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2512586847/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://flocouniverse.bandcamp.com/album/like-the-soil">Like the soil by FLOCO</a></iframe>' },
+    { title: "LOFS016 · Chud God & 96 Back - Burn Tool (96 Back’s Scorched Earth Reburn)", img: "/FINAL REMIX COVER.png", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=1575541151/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://96back1.bandcamp.com/track/burn-tool-96-back-s-scorched-earth-reburn">Burn Tool (96 Back’s Scorched Earth Reburn) by Chud God &amp; 96 Back</a></iframe>' },
+    { title: "LOFS015 · Number One - The Star", img: "/FINLA V2.png", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=85280984/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://number-one.bandcamp.com/album/the-star">The Star by Number One</a></iframe>' },
+    { title: "LOFS014 · eleu - Dolce Cabana", img: "/Dolce FINAL COVER BANDCAMP.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=2735137211/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://eleu.bandcamp.com/track/dolce-cabana">Dolce Cabana by eleu</a></iframe>' },
+    { title: "LOFS013 · Olson - Overlapping Shadows", img: "/OS FINAL COVER SMALL BANDCAMP.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2569098894/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://olson.bandcamp.com/album/overlapping-shadows">Overlapping Shadows by Olson</a></iframe>' },
+    { title: "LOFS012 · eleu - SOFT CUTE HARD", img: "/SCH FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1404255832/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://eleu.bandcamp.com/album/soft-cute-hard">SOFT CUTE HARD by eleu</a></iframe>' },
+    { title: "LOFS011 · Number One - BOWCHICKAWOW", img: "/BOWCHICKAWOW 2.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1599040288/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://number-one.bandcamp.com/album/bowchickawow">BOWCHICKAWOW by Number One</a></iframe>' },
+    { title: "LOFS010 · The LOFS Megachurch - God Loves Gabber 2", img: "/GLG2 FINAL COVER.png", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1746583162/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/god-loves-gabber-2">God Loves Gabber 2 by The LOFS Megachurch</a></iframe>' },
+    { title: "LOFS009 · Ancestral Vision - Sidecar Dream Session", img: "/Sidecardreamsession117.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1683837324/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://ancestralvisi0n.bandcamp.com/album/sidecar-dream-session">Sidecar Dream Session by Ancestral Vision</a></iframe>' },
+    { title: "LOFS008 · x u - Drink all your favourite drinks to full on Yizhong Street", img: "/x u EPM COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=1996779836/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/track/drink-all-your-favourite-drinks-to-full-on-yizhong-street">Drink all your favourite drinks to full on Yizhong Street by x u</a></iframe>' },
+    { title: "LOFS007 · Renslink - Pull On", img: "/Renslink EP Cover.jpeg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=3056036308/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://renslink.bandcamp.com/album/pull-on">Pull On by Renslink</a></iframe>' },
+    { title: "LOFS006 · Number One - Dedication", img: "/Dedication EP Cover.png", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2764773825/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://number-one.bandcamp.com/album/dedication">Dedication by Number One</a></iframe>' },
+    { title: "LOFS005 · Olson - Halogen", img: "/OlsonCover.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=3491184767/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://olson.bandcamp.com/album/halogen">Halogen by Olson</a></iframe>' },
+    { title: "LOFS004 · Oshi Moon - cyber_crush", img: "/CC FINAL COVER BANDCAMP.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1109250630/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://oshimoon.bandcamp.com/album/cyber-crush">cyber_crush by Oshi Moon</a></iframe>' },
+    { title: "LOFS003 · Ziyiz - Spells", img: "/Spells FINAL COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=229374855/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/spells">Spells by Ziyiz</a></iframe>' },
+    { title: "LOFS002 · Chud God - Chud Tools", img: "/Chud toolsEPM COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=4224251050/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/chud-tools">Chud Tools by Chud God</a></iframe>' },
+    { title: "LOFS001 · Mike Drones - 3D EP", img: "/MIKE DRONES EPM COVER.jpg", embed: '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2658570006/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://lofs.bandcamp.com/album/3d-ep">3D EP by Mike Drones</a></iframe>' },
 ];
 
 export default function Home() {
@@ -16,14 +42,14 @@ export default function Home() {
   const [showReleases, setShowReleases] = useState(false);
   const [activeRelease, setActiveRelease] = useState(null);
   const [showMailingList, setShowMailingList] = useState(false);
-  const [showSpotify, setShowSpotify] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isMobile, setIsMobile] = useState(false);
+  const [showSpotify, setShowSpotify] = useState(false);
 
-  // ---- Preload all release images to prevent lag ----
+  // ---- Preload images ----
   useEffect(() => {
     releases.forEach(release => {
       const img = new Image();
@@ -78,7 +104,7 @@ export default function Home() {
             setActivePlayer("");
             setActiveRelease(null);
             setShowMailingList(false);
-            setShowSpotify(false);
+            setShowSpotify(false); // hide Spotify
           }}
         >
           ✿ LOFS
@@ -91,7 +117,7 @@ export default function Home() {
               if (!isMobile) {
                 setShowReleases(true);
                 setShowMailingList(false);
-                setShowSpotify(false);
+                setShowSpotify(false); // hide Spotify
                 setActiveImage("");
                 setActiveBio("");
                 setActivePlayer("");
@@ -101,7 +127,7 @@ export default function Home() {
               if (isMobile) {
                 setShowReleases(true);
                 setShowMailingList(false);
-                setShowSpotify(false);
+                setShowSpotify(false); // hide Spotify
               }
             }}
           >
@@ -114,14 +140,14 @@ export default function Home() {
               if (!isMobile) {
                 setShowMailingList(true);
                 setShowReleases(false);
-                setShowSpotify(false);
+                setShowSpotify(false); // hide Spotify
               }
             }}
             onClick={() => {
               if (isMobile) {
                 setShowMailingList(true);
                 setShowReleases(false);
-                setShowSpotify(false);
+                setShowSpotify(false); // hide Spotify
               }
             }}
           >
@@ -130,21 +156,32 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Top-right Spotify */}
-      <div className="absolute top-8 right-8 text-xs flex flex-col space-y-1">
-        <p
-          className="cursor-pointer"
-          onMouseEnter={() => { if (!isMobile) setShowSpotify(true); }}
-          onClick={() => { if (isMobile) setShowSpotify(true); }}
-        >
-          ✦
-        </p>
-      </div>
-
       {/* Flower */}
       <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2">
-        <img src="/flower.jpg" alt="flower" className="w-64" loading="eager" />
+        <img
+          src="/flower.jpg"
+          alt="flower"
+          className={`w-64 ${isMobile ? "cursor-pointer" : "cursor-default"}`}
+          onClick={() => setShowSpotify(!showSpotify)}
+          loading="eager"
+        />
       </div>
+
+      {/* Spotify player */}
+      {showSpotify && (
+        <div className="absolute top-8 right-8 w-[22rem] z-50">
+          <iframe
+            data-testid="embed-iframe"
+            style={{ borderRadius: "12px" }}
+            src="https://open.spotify.com/embed/playlist/5bQWJm9RXikVsUTn5MuXoS?utm_source=generator&theme=0"
+            width="100%"
+            height="352"
+            frameBorder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          ></iframe>
+        </div>
+      )}
 
       {/* Releases list */}
       {showReleases && (
@@ -172,7 +209,6 @@ export default function Home() {
                     if (isMobile) {
                       setActiveRelease(release);
                       setShowMailingList(false);
-                      setShowSpotify(false);
                     }
                   }}
                 >
@@ -208,23 +244,6 @@ export default function Home() {
           {activePlayer && (
             <div className="mt-2" dangerouslySetInnerHTML={{ __html: activePlayer }} />
           )}
-        </div>
-      )}
-
-      {/* Spotify embed (desktop) */}
-      {showSpotify && !isMobile && (
-        <div className="absolute top-8 right-12 w-80 bg-white p-2 rounded-lg shadow-lg z-50">
-          <iframe
-            data-testid="embed-iframe"
-            style={{ borderRadius: "12px" }}
-            src="https://open.spotify.com/embed/playlist/5bQWJm9RXikVsUTn5MuXoS?utm_source=generator&theme=0"
-            width="100%"
-            height="352"
-            frameBorder="0"
-            allowFullScreen
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
         </div>
       )}
 
@@ -287,26 +306,6 @@ export default function Home() {
           </div>
           {successMessage && <p className="text-green-600 text-xs mt-1">{successMessage}</p>}
           {errorMessage && <p className="text-red-600 text-xs mt-1">{errorMessage}</p>}
-        </div>
-      )}
-
-      {/* Mobile Spotify overlay */}
-      {isMobile && showSpotify && (
-        <div className="fixed inset-0 bg-white z-50 p-6 overflow-auto">
-          <button className="text-xs mb-4 underline" onClick={() => setShowSpotify(false)}>
-            ✕ close
-          </button>
-          <iframe
-            data-testid="embed-iframe"
-            style={{ borderRadius: "12px" }}
-            src="https://open.spotify.com/embed/playlist/5bQWJm9RXikVsUTn5MuXoS?utm_source=generator&theme=0"
-            width="100%"
-            height="352"
-            frameBorder="0"
-            allowFullScreen
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
         </div>
       )}
     </main>
